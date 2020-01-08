@@ -1,9 +1,4 @@
-import numpy as np
 import pandas as pd
-import logging
-
-logger = logging.getLogger(__name__)
-
 
 class FundamentalData(object):
     '''
@@ -17,28 +12,20 @@ class FundamentalData(object):
         '''
         Add the symbol to the dataframe when it don't exist.
         '''
-        data = pd.DataFrame(columns=['Time','PE', 'PB', 'PCF', 'DY', 'CFO','ROA','ROE', 'DE', 'EPS', 'EPSVar', 'MCAP', 'SP', 
-        'Signal'])
+        data = pd.DataFrame(columns=['Time','PE', 'PB', 'PCF', 'DY', 'CFO','ROA','ROE', 'DE', 'EPS', 'MCAP', 'SP', 
+        'NIGrowth', 'Signal'])
         data = data.set_index('Time')
         data.index.name = ['Time']
         self.fundamentals[symbol] = data
     
-    def update_data(self, symbol, time, pe, pb, pcf, dyield, cfo, roa, roe, de_ratio, eps, mc, sp, signal):
+    def update_data(self, symbol, time, pe, pb, pcf, dyield, cfo, roa, roe, de_ratio, eps, mc, sp, ni_growth, signal):
         '''
         Update the dataframe from new data.
         '''
-        epss = np.asarray(self.fundamentals[symbol].EPS.values.ravel())
-        epss = np.append(epss, eps)
-        if type(epss) is float:
-            eps_var = 0.0
-        else:
-            eps_var = np.std(epss)
-            
-        # eps_var = np.std(eps.values)
         #create pandas series to add entry into dataframe
         series = pd.Series({"Time": time, "PE":pe,"PB":pb,"PCF":pcf,"DY":dyield,
             "CFO": cfo, "ROA": roa, "ROE": roe, "DE": de_ratio, "EPS": eps, "MCAP": mc , "SP":sp,
-            "EPSVar": eps_var, "Signal": signal}, name=time)
+            "NIGrowth": ni_growth, "Signal": signal}, name=time)
         #append the series/new data into dataframe
         self.fundamentals[symbol] = self.fundamentals[symbol].append(series,ignore_index=True)
         return
@@ -67,8 +54,7 @@ class FundamentalData(object):
         z_roa = (self.fundamentals[symbol].tail(1)["ROA"] - self.fundamentals[symbol]["ROA"].mean())/self.fundamentals[symbol]["ROA"].std()
         z_roe = (self.fundamentals[symbol].tail(1)["ROE"] - self.fundamentals[symbol]["ROE"].mean())/self.fundamentals[symbol]["ROE"].std()
         z_de = (self.fundamentals[symbol].tail(1)["DE"] - self.fundamentals[symbol]["DE"].mean())/self.fundamentals[symbol]["DE"].std()
-        eps_std = self.fundamentals[symbol]["EPSVar"].std()
-        z_eps = (self.fundamentals[symbol].tail(1)["EPSVar"] - self.fundamentals[symbol]["EPSVar"].mean())/ (1.0 if eps_std == 0 else eps_std)
+        z_eps = (self.fundamentals[symbol].tail(1)["EPS"] - self.fundamentals[symbol]["EPS"].mean())/self.fundamentals[symbol]["EPS"].std()
         
         #calculate z score for stock
         return (0.2 * z_cfo.values[0] if z_cfo.any()  else 0.0 + 0.2 * z_roa.values[0] if z_roa.any()  else 0.0 

@@ -24,26 +24,27 @@ class SmartBetaStrategies(QCAlgorithm):
         self.technicals = {}
         self.model = {}
         self.columns = []
-        self.value_smart_beta = False # make it False to run Quality Smart Beta Strategy
+        self.value_smart_beta = RunConfig.RunValueSmartBeta
         
     def Initialize(self):
         '''
         This method is responsible to setup the environment and different parameter for algo strategy.
         '''
         # Set Start date for backtesting
-        self.SetStartDate(RunConfig.StartDate)
+        self.SetStartDate(RunConfig.StartDate)  # Note: initial model will be trained with 1 year data
         
         # Set EndDate for backtesting
         self.SetEndDate(RunConfig.EndDate)
         
-        self.SetCash(RunConfig.StrategyCash)  # Set Strategy Cash
+        # Set Strategy Cash
+        self.SetCash(RunConfig.StrategyCash)
         
         # Set trade data frequency
         self.UniverseSettings.Resolution = RunConfig.Resolution
         
         # Define benchmark for strategy
-        self.bench_index = self.AddEquity(RunConfig.BenchmarkIndex, RunConfig.Resolution).Symbol
-        self.SetBenchmark(self.bench_index)
+        self.SetBenchmark(RunConfig.BenchmarkIndex)
+        self.AddEquity(RunConfig.BenchmarkIndex, RunConfig.Resolution)
         
         # Initialize the custom collection for strategy
         self.fundametal_data = FundamentalData()
@@ -54,7 +55,7 @@ class SmartBetaStrategies(QCAlgorithm):
             FineFundamentalUniverseSelectionModel(self.CoarseSelectionFunction, self.FineSelectionFunction, None, None))
         
         # Set Columns to train ML algorithm
-        self.columns = ['PE', 'PB', 'PCF', 'DY', 'CFO', 'ROA', 'ROE', 'DE', 'EPSVar', 'MCAP', 'SP']
+        self.columns = ['PE', 'PB', 'PCF', 'DY', 'CFO', 'ROA', 'ROE', 'DE', 'EPS', 'MCAP', 'SP', 'NIGrowth']
         
         # Set Portfolio construction strategy
         self.SetPortfolioConstruction(EqualWeightingPortfolioConstructionModel())
@@ -68,10 +69,11 @@ class SmartBetaStrategies(QCAlgorithm):
         # Note: self.RebalanceOnML If running ML based strategy else self.Rebalance
         # Schedule the algorithm to train and take position 
         if RunConfig.UseMLForRebalancing:
-            self.Train(self.DateRules.EveryDay(RunConfig.BenchmarkIndex), self.TimeRules.At(8,0), self.RebalanceOnML)
+            self.Schedule.On(self.DateRules.MonthStart(RunConfig.BenchmarkIndex), self.TimeRules.At(8,0), self.RebalanceOnML)
         else:
-            self.Schedule.On(self.DateRules.MonthStart(self.bench_index), self.TimeRules.At(8,0), self.Rebalance)
-        
+            self.Schedule.On(self.DateRules.MonthStart(RunConfig.BenchmarkIndex), self.TimeRules.At(8,0), self.Rebalance)
+        # self.Schedule.On(self.DateRules.MonthStart("SPY"), self.TimeRules.At(8,0), self.RebalanceOnML)
+        # self.Train(self.DateRules.EveryDay("SPY"), self.TimeRules.At(8,0), self.RebalanceOnML)
     
     def CoarseSelectionFunction(self, coarse):
         '''
@@ -110,14 +112,14 @@ class SmartBetaStrategies(QCAlgorithm):
         for x in top:
             if x.Symbol.Value not in self.fundametal_data.fundamentals.keys():
                 self.fundametal_data.add_symbol(x.Symbol.Value)
-            marketcap = abs(x.EarningReports.BasicAverageShares.ThreeMonths * 
+            marketcap = (x.EarningReports.BasicAverageShares.ThreeMonths * 
                        x.EarningReports.BasicEPS.TwelveMonths * x.ValuationRatios.PERatio)
-            
+                       
             self.fundametal_data.update_data(x.Symbol.Value,x.EndTime, x.ValuationRatios.PERatio, 
             x.ValuationRatios.PBRatio, x.ValuationRatios.PCFRatio, x.ValuationRatios.TrailingDividendYield,
             x.ValuationRatios.CFOPerShare,x.OperationRatios.ROA.Value, x.OperationRatios.ROE.Value,
-            x.OperationRatios.TotalDebtEquityRatio.Value, x.EarningReports.BasicEPS.ThreeMonths, marketcap, 
-            x.ValuationRatios.SalesYield, self.technicals[x.Symbol.Value].signal)
+            x.OperationRatios.TotalDebtEquityRatio.Value, x.EarningReports.BasicEPS.Value, marketcap, 
+            x.ValuationRatios.SalesYield, x.OperationRatios.NetIncomeGrowth.Value,self.technicals[x.Symbol.Value].signal)
             
         return [x.Symbol for x in top]
 
@@ -141,6 +143,7 @@ class SmartBetaStrategies(QCAlgorithm):
            
             # Check if stock is tradable and lookback is valid.
             if self.fundametal_data.fundamentals[stock].shape[0] > self.lookback and self.Securities[stock].IsTradable:
+                
                 # Calculate Z-Score for individual stock
                 z_score = self.fundametal_data.getValueZScore(stock) \
                 if self.value_smart_beta else self.fundametal_data.getQualityZScore(stock)
@@ -206,9 +209,12 @@ class SmartBetaStrategies(QCAlgorithm):
         Classifier is Factory method which create the classifier object for given input.
         As of now, there is no optimization parameters provided while creating object for ML algo.
         '''
-
+        # Create LogisticRegression object
+        if ctype is MLAlgoType.LOGISTIC:
+            clf = LogisticRegression()
+        
         # Create AdaBoost classifier object   
-        if ctype is MLAlgoType.ADABOOST:
+        elif ctype is MLAlgoType.ADABOOST:
             clf = AdaBoostClassifier()
         
         # Create RandomForest object

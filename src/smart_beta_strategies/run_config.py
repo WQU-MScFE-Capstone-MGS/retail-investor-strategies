@@ -15,6 +15,10 @@ class RunConfig:
     
     # Benchmark Index used for evaluation
     BenchmarkIndex = 'SPY'
+
+    # Flag to indicate if Value/Quality Smart Beta model should be run
+    # Set 'True' for Value and 'False' for Quality
+    RunValueSmartBeta = True
     
     # Use ML Based rebalancing
     UseMLForRebalancing = False
