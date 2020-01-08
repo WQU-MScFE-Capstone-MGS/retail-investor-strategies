@@ -36,12 +36,15 @@ src
 
 As mentioned above, as part of the research for our project, we have used the QuantConnect platform. QuantConnect provides its framework to write our own algorithms either on the cloud at https://www.quantconnect.com/terminal/ or by downloading and using the QuantConnect's Lean engine locally. In either case, the implementation remains pretty much the same. We performed most of our analysis on the cloud because of the availablity of large US equity datasets. We have also used the local Lean engine to test the custom dollar bars we generated usign the tick data we obtained for some stocks on Russian stock exchange.
 
-
 # Implementation
 ## Smart Beta Strategy
-As part of our research we have decided to implement a Smart Beta alogorithm. Below is the class diagram if of the implementation:
+As part of our research we have implemented a Smart Beta alogorithm which leverages the QuantConnects framework. Below is the class diagram if of the implementation:
 
 ![Class Diagram](images/cs_class_diagram.png)
+
+This particular strategy is implemented on QuantConnect's **AlgorithmLab** environment. The starting point for any algorithm developed on the QuantConnect's framework is a class which implements the **```QCAlgorithm```** base class. The **```QCAlgorithm```** provides various lifecycle hook methods which can be overridden to perform specific tasks like asset selection, trade actions, rebalacing etc.,
+
+As shown in the class diagram above, SmartBetaStrategies in main.py is the startuo class whose Initialize method is called by the QuantConnect framework upon starting the backtesting.
 
 ## Tick Data Strategy
 
@@ -49,11 +52,11 @@ To proceed one needs to download and to preprocess data for feeding algorithm. B
 
 To create python environment one needs to use conda and use 'requirements.txt'. This environment should be built on python verios 3.6.
 
-<code>conda create --name QC python=3.6.6</code>
-
-<code>conda activate QC</code>
-
-<code>pip install -r requirements.txt</code>
+``` bash
+> conda create --name QC python=3.6.6
+> conda activate QC
+> pip install -r requirements.txt
+```
 
 It will be used for running python scripts as well as for LEAN Engine.
 
