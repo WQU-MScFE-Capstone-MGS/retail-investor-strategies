@@ -1,0 +1,12 @@
+#python==3.6.6
+setuptools
+numpy
+python-dateutil
+pytz
+pandas
+fastparquet
+sklearn
+matplotlib
+mlfinlab
+selenium
+jupyter
