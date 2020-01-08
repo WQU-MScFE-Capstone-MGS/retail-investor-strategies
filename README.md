@@ -13,7 +13,6 @@ src
 |   |__ main.py
 |   |__ fundamental_data.py
 |   |__ algo_type.py
-|
 |__ tick_data_strategies
     |__ QCTickDataStrategy.py
     |__ 1_get_tick_data.py
@@ -39,11 +38,12 @@ As mentioned above, as part of the research for our project, we have used the Qu
 
 
 # Implementation
+## Smart Beta Strategy
 As part of our research we have decided to implement a Smart Beta alogorithm. Below is the class diagram if of the implementation:
 
 ![Class Diagram](images/cs_class_diagram.png)
 
-# Tick Data Strategy
+## Tick Data Strategy
 
 To proceed one needs to download and to preprocess data for feeding algorithm. Below is the file / data structure and intstructions how to run scripts.
 
@@ -57,7 +57,7 @@ To create python environment one needs to use conda and use 'requirements.txt'. 
 
 It will be used for running python scripts as well as for LEAN Engine.
 
-## Data Download
+### Data Download
 
 This script was tested on Ubuntu 18.04 and MacOs (Mojave, Catalina) with FireFox browser.
 
@@ -80,7 +80,7 @@ This web-site _does not_ provide data to download every day from 7:00am to 3:00p
 Alternatavly, raw tick data for this research can be reached in [Box folder](https://app.box.com/s/fwau5uwsrvn4lgwfwpvkf9zwnxo24k82)
 
 
-## Data Preprocess
+### Data Preprocess
 
 These scripts preprocess raw tick data to create dollarbars and indicators (features) for feedin ML algorithm.
 
@@ -91,7 +91,7 @@ These scripts preprocess raw tick data to create dollarbars and indicators (feat
 3. The last preprocessing script 4_dollar_bars_triple_barrier_indicators.py creates dollarbars and save them into folder '4_DollarBars', then creates dataseries to feed trading altorithm and saves them into folder '5_Indicators'. The dollarbars and indicators are built based on input parameters, that could be changed for modelling variations.
 
 
-## Running Algos
+### Running Algos
 
 Trading algorithm is developed to run within open source QuantConnect platform. Trading algorithm could be executed on the web [QuantConnect](https://www.quantconnect.com) service or locally on the underlying [LEAN Engine](https://github.com/QuantConnect/Lean/tree/master/Algorithm.Python#quantconnect-python-algorithm-project).
 
