@@ -7,31 +7,31 @@ This repo contains the implementation of the WorldQuant University's Capstone pr
 This project is accomplished by extending the QuantConnect's framework to implement a smart beta algorithm. The source code can be found under the <code>src</code> folder. Below is the structure of the code organization:
 
 <pre>
-<b>src
-|__ <b>smart_beta_strategies</b>
+src
+|__ smart_beta_strategies
 |   |__ run_config.py
 |   |__ main.py
 |   |__ fundamental_data.py
 |   |__ algo_type.py
 |
-|__ <b>tick_data_strategies</b>
+|__ tick_data_strategies
     |__ QCTickDataStrategy.py
     |__ 1_get_tick_data.py
     |__ 2_preprocess_ticks.py
     |__ 3_create_adj_ticks.py
     |__ 4_dollar_bars_triple_barrier_indicators.py
     |__ requirements.txt
-    |__ <b>data</b>
-        |__ <b>1_RawTicks</b>
-        |   |__ <b>GAZP</b>
+    |__ data
+        |__ 1_RawTicks
+        |   |__ GAZP
         |       |__ GAZP_090103_090111.csv
-        |__ <b>2_MOEX</b>
+        |__ 2_MOEX
         |   |__ RI.IMOEX_090101_191213.csv
-        |__ <b>3_Dividends</b>
+        |__ 3_Dividends
         |   |__ GAZP.ME.csv
-        |__ <b>4_DollarBars</b>
+        |__ 4_DollarBars
         |   |__ GAZP_10_dollar_bars.csv
-        |__ <b>5_Indicators</b>
+        |__ 5_Indicators
             |__ GAZP_10_0.1_indicators.csv
 </pre>
 
