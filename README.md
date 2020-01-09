@@ -117,20 +117,22 @@ Trading algorithm is developed to run within open source QuantConnect platform. 
 # QuantConnect Primer
 Following is a quick primer on how to use QuantConnect. To run the **Smart Beta Fundamental** strategies, the user need to follow the steps shown below:
 1. **Login:** Open Web browser and go to https://www.quantconnect.com/login?target=Web. You will see QuantConnect login page. Please enter _User Name_ and _Password_ that are provided to you.
+Fig: QuantConnect Login
 ![QuantConnect Login](images/qc_login_page.png)
 
 2. **Explore AlgorithmLab:** You will then be taken to the **AlgorithmLab** dashboard as shown in the screenshot below. On this screen notice the outlined sections. All the projects that are shared with you will be visible which you can click to check the source code for the algorithms.
+Fig: AlgorithmLab Dashboard
 ![QuantConnect AlgorithmLab Dashboard](images/qc_alorithm_lab_screen.png)
 
 3. **Explore and Edit a Project:** Clicking on the any of the projects opens the Project explorer along with the code Editor as shown in the screenshot below.
+Fig: Project Explorer and Editor
 ![QuantConnect Project Explorer](images/qc_editor_screen.png)
 
 4. **Run Backtesting:** To run the backtesting, ...
 
 5. **Explore the Results:** To explore the results, ...
-Fig: Backtest Results Dashboard
+<br>Fig: Backtest Results Dashboard
 ![QuantConnect Backtesting Results Dashboard](images/cs_results_dashboard.png)
-
 Fig: Backtest Results
 ![QuantConnect Backtesting Results](images/cs_backtest_results_page.png)
 
