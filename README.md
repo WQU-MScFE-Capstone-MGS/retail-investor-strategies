@@ -82,7 +82,7 @@ Among blue chips and MOEX index constituents the following assets were chosen fo
 
 To start downloading process one needs to run '1_get_tick_data.py' from command line with the arguments 'symbol', start date and end date 'YYYY-MM-DD', i.e.:
 
-<code>python.py 1_get_tick_data.py GAZP 2009-01-01 2019-12-13</code>
+`python.py 1_get_tick_data.py GAZP 2009-01-01 2019-12-13`
 
 
 After the algorithm opens the firefox window, the frequency of the data ('ticks') and the output format ('.csv') need to be selected manually. In addition, one needs to select 'save to file' and select a checkbox 'repeat for the next occurencies'. All this need to be done onces.
