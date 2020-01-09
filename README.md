@@ -6,7 +6,7 @@
   * [Tick Data Strategy](#tick_data_strategy)
     + [Data Download](#data_download)
     + [Data Preprocess](#data_preprocess)
-- [QuantConnect - Primer](quantconnect_primer)
+- [QuantConnect - Primer](quantconnect_-_primer)
 
 # Introduction
 This repo contains the implementation of the WorldQuant University's Capstone project submitted by:
