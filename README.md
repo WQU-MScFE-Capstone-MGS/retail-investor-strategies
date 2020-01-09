@@ -2,11 +2,11 @@
 - [Introduction](#introduction)
   * [Code Organization](#code_organization)
 - [Implementation](#implementation)
-  * [Smart Beta Strategy](#smart_beta_strategy)
-  * [Tick Data Strategy](#tick_data_strategy)
-    + [Data Download](#data_download)
-    + [Data Preprocess](#data_preprocess)
-- [QuantConnect Primer](#quantconnect_primer)
+  * [Smart Beta Strategy](#smart-beta-strategy)
+  * [Tick Data Strategy](#tick-data-strategy)
+    + [Data Download](#data-download)
+    + [Data Preprocess](#data-preprocess)
+- [QuantConnect Primer](#quantconnect-primer)
 
 # Introduction
 This repo contains the implementation of the WorldQuant University's Capstone project submitted by:
