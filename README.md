@@ -6,7 +6,7 @@
   * [Tick Data Strategy](#tick_data_strategy)
     + [Data Download](#data_download)
     + [Data Preprocess](#data_preprocess)
-- [QuantConnect](quantconnect)
+- [QuantConnect Primer](#quantconnect_primer)
 
 # Introduction
 This repo contains the implementation of the WorldQuant University's Capstone project submitted by:
@@ -114,7 +114,7 @@ Trading algorithm is developed to run within open source QuantConnect platform. 
 - To run algorithm locally, one needs to have Visual Studio and python envrionment, which was created at the first step. Details on istallation, compiling and running algotithm are available [here](https://medium.com/hackernoon/setting-up-your-own-algorithmic-trading-server-4bbdf0766c17). In this step the dropbox links to files with indidators can be substituted to local file links.
 
 
-# QuantConnect
+# QuantConnect Primer
 Following is a quick primer on how to use QuantConnect. To run the **Smart Beta Fundamental** strategies, the user need to follow the steps shown below:
 1. **Login:** Open Web browser and go to https://www.quantconnect.com/login?target=Web. You will see QuantConnect login page. Please enter _User Name_ and _Password_ that are provided to you.
 ![QuantConnect Login](images/qc_login_page.png)
