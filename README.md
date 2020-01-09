@@ -1,9 +1,20 @@
+# Table of contents
+- [Introduction](#introduction)
+  * [Code Organization](#code_organization)
+- [Implementation](#implementation)
+  * [Smart Beta Strategy](#smart-beta-strategy)
+  * [Tick Data Strategy](#tick-data-strategy)
+    + [Data Download](#data-download)
+    + [Data Preprocess](#data-preprocess)
+- [QuantConnect Primer](#quantconnect-primer)
+
 # Introduction
 This repo contains the implementation of the WorldQuant University's Capstone project submitted by:
 1. Mikhail Shishlenin
 2. Ganesh Harke and
 3. Suresh Koppisetti
 
+## Code Organization
 This project is accomplished by extending the QuantConnect's framework to implement a smart beta algorithm. The source code can be found under the <code>src</code> folder. Below is the structure of the code organization:
 
 <pre>
@@ -71,7 +82,7 @@ Among blue chips and MOEX index constituents the following assets were chosen fo
 
 To start downloading process one needs to run '1_get_tick_data.py' from command line with the arguments 'symbol', start date and end date 'YYYY-MM-DD', i.e.:
 
-<code>python.py 1_get_tick_data.py GAZP 2009-01-01 2019-12-13</code>
+`python.py 1_get_tick_data.py GAZP 2009-01-01 2019-12-13`
 
 
 After the algorithm opens the firefox window, the frequency of the data ('ticks') and the output format ('.csv') need to be selected manually. In addition, one needs to select 'save to file' and select a checkbox 'repeat for the next occurencies'. All this need to be done onces.
@@ -101,3 +112,20 @@ Trading algorithm is developed to run within open source QuantConnect platform. 
 - To run it with QuantConnect platform one needs to login, 'Create new Algorithm' within 'Algorithm Lab' (or 'Lab'), and substitute the code by the code from 'QCTickDataStrategy.py'. This script contains links to dropbox folders with already created 'Indicators' files, which can be substituted by the files you created at the 'Data Preprocess' step above. After starting 'Backtest', QuantConnect will generate statistics and reports. (This scripts were tested under PRO account and could be running slowly under free account).
 
 - To run algorithm locally, one needs to have Visual Studio and python envrionment, which was created at the first step. Details on istallation, compiling and running algotithm are available [here](https://medium.com/hackernoon/setting-up-your-own-algorithmic-trading-server-4bbdf0766c17). In this step the dropbox links to files with indidators can be substituted to local file links.
+
+
+# QuantConnect Primer
+Following is a quick primer on how to use QuantConnect. To run the **Smart Beta Fundamental** strategies, the user need to follow the steps shown below:
+1. **Login:** Open Web browser and go to https://www.quantconnect.com/login?target=Web. You will see QuantConnect login page. Please enter _User Name_ and _Password_ that are provided to you.
+![QuantConnect Login](images/qc_login_page.png)
+
+2. **Explore AlgorithmLab:** You will then be taken to the **AlgorithmLab** dashboard as shown in the screenshot below. On this screen notice the outlined sections. All the projects that are shared with you will be visible which you can click to check the source code for the algorithms.
+![QuantConnect AlgorithmLab Dashboard](images/qc_alorithm_lab_screen.png)
+
+3. **Explore and Edit a Project:** Clicking on the any of the projects opens the Project explorer along with the code Editor as shown in the screenshot below.
+![QuantConnect Project Explorer](images/qc_editor_screen.png)
+
+4. **Run Backtesting:** To run the backtesting, ...
+
+5. **Explore the Results:** To explore the results, ...
+
