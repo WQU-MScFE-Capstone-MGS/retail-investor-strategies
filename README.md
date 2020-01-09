@@ -128,4 +128,9 @@ Following is a quick primer on how to use QuantConnect. To run the **Smart Beta 
 4. **Run Backtesting:** To run the backtesting, ...
 
 5. **Explore the Results:** To explore the results, ...
+Fig: Backtest Results Dashboard
+![QuantConnect Backtesting Results Dashboard](images/cs_results_dashboard)
+
+Fig: Backtest Results
+![QuantConnect Backtesting Results](images/cs_backtest_results_page)
 
