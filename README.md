@@ -55,7 +55,7 @@ As part of our research we have implemented a Smart Beta alogorithm which levera
 
 This particular strategy is implemented on QuantConnect's **AlgorithmLab** environment. The starting point for any algorithm developed on the QuantConnect's framework is a class which implements the **```QCAlgorithm```** base class. The **```QCAlgorithm```** provides various lifecycle hook methods which can be overridden to perform specific tasks like asset selection, trade actions, rebalacing etc.,
 
-As shown in the class diagram above, SmartBetaStrategies in main.py is the startuo class whose Initialize method is called by the QuantConnect framework upon starting the backtesting.
+As shown in the class diagram above, SmartBetaStrategies in ```main.py``` is the startup class whose ```Initialize()``` method is called by the QuantConnect framework upon starting the backtesting. In the ```Initialize()``` method, a common pattern you will notice is the registration of various functions with the framework to be called at specific instance during the backtesting. For example, we register two functions ```CoarseSelectionFunction()``` and ```FineSelectionFunction()``` are register which are invoked by the framework when selecting securities from the universe of securities for backtesting. Another important function is the ```Rebalance()``` and ```RebalanceOnML()``` functions which as the name suggestes, will be invoked by the framework when it's time for rebalancing the portfolio buring the backtesting. 
 
 ## Tick Data Strategy
 
