@@ -128,9 +128,9 @@ Fig: AlgorithmLab Dashboard
 Fig: Project Explorer and Editor
 ![QuantConnect Project Explorer](images/qc_editor_screen.png)
 
-4. **Run Backtesting:** To run the backtesting, ...
+4. **Run Backtesting:** To run the backtesting, we need to click the **Backtest** button that is outlined in the screenshot above.
 
-5. **Explore the Results:** To explore the results, ...
+5. **Explore the Results:** To explore the results, click on the **Results** button to slide the results dashboard. You will see all the prerun results in the grid. If you are currently running any backtest, this grid will show the status of the current backtest with the progress indicators. Clicking on any of the existing results opens a new tab on the code editor screen with the results.
 <br>Fig: Backtest Results Dashboard
 ![QuantConnect Backtesting Results Dashboard](images/cs_results_dashboard.png)
 Fig: Backtest Results
