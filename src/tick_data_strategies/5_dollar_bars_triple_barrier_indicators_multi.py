@@ -14,6 +14,7 @@ import mlfinlab as ml
 
 np.random.seed(42)
 
+
 # module to substitute in 'mlfinlab' package
 def new_batch_run(self, verbose=True, to_csv=False, output_path=None):
     """
@@ -638,11 +639,11 @@ print(keys)
 
 est_ticks = 10  # per day
 
-vertical_barrier_days = 37  # days
+# vertical_barrier_days = 5  # days
 
 # the following parameters need to be adjusted for particular case
 pt_sl = [1, 2]
-min_ret = 1 / 100  # triple_barrier_boundary
+# min_ret = 1 / 100  # triple_barrier_boundary
 
 # sma
 fast = 20
@@ -663,6 +664,8 @@ for key in keys:
         # Select DollarBar size
         ticks = pd.read_parquet(ticks_file_path)
 
+        # In[6]:
+
         # overall traded volume
         N = ticks[['price', 'volume']].prod(axis=1).sum()
 
@@ -680,65 +683,70 @@ for key in keys:
                                                     verbose=True, to_csv=True,
                                                     output_path=dollar_bars_path)
 
-get_indicators_name = lambda key, vbd, minret: f"{key}_{str(vbd)}_{str(minret * 100)}_indicators.csv"
+# get_indicators_name = lambda key, vbd, minret, fast, slow: f"{key}_{str(vbd)}_{str(minret * 1000)}_{str(fast)}-{str(slow)}_ind.csv"
 
-for key in keys:
-    dollar_bars_path = os.path.join(dollar_bars_folder, get_dollar_bars_file_name(key, est_ticks))
-    indicators_path = os.path.join(indicators_folder,
-                                   get_indicators_name(key, vertical_barrier_days, min_ret))
 
-    if os.path.basename(indicators_path) not in os.listdir(os.path.dirname(indicators_path)):
-        data = pd.read_csv(dollar_bars_path, index_col=0, parse_dates=True)
-        print("data shape for ", key, " - ", data.shape)
+for vertical_barrier_days in [1, 3, 5, 7, 10, 15, 20, 25, 35, 50, 70]:
+    for min_ret in [.1, .5, 1, 1.5, 2, 3]:
+        min_ret *= .01
+        for fast, slow in [(20, 50)]:  # , (50, 200)
 
-        # data heads: ['open', 'high', 'low', 'close'] ?? cum_vol    cum_dollar    cum_ticks
-        ############ get indicators:###########################################
-        data = get_side(data)
+            for key in keys:
+                dollar_bars_path = os.path.join(dollar_bars_folder, get_dollar_bars_file_name(key, est_ticks))
+                indicators_path = os.path.join(indicators_folder,
+                                               f"{key}_{str(vertical_barrier_days)}_{str(min_ret * 1000)}_{str(fast)}-{str(slow)}_ind.csv")
 
-        ################## build bins ###################################
-        # Save the raw data
-        raw_data = data.copy()
+                if os.path.basename(indicators_path) not in os.listdir(os.path.dirname(indicators_path)):
+                    data = pd.read_csv(dollar_bars_path, index_col=0, parse_dates=True)
+                    print("data shape for ", key, " - ", data.shape)
 
-        # Drop the NaN values from our data set
-        data.dropna(axis=0, how='any', inplace=True)
+                    # data heads: ['open', 'high', 'low', 'close'] ?? cum_vol    cum_dollar    cum_ticks
+                    ############ get indicators:###########################################
+                    data = get_side(data)
 
-        trplbr = TrippleBarrier()
+                    ################## build bins ###################################
+                    # Save the raw data
+                    raw_data = data.copy()
 
-        # Compute daily volatility
-        daily_vol = trplbr.get_daily_vol(close=data['close'], lookback=50)
+                    # Drop the NaN values from our data set
+                    data.dropna(axis=0, how='any', inplace=True)
 
-        # Apply Symmetric CUSUM Filter and get timestamps for events
-        # Note: Only the CUSUM filter needs a point estimate for volatility
-        cusum_events = trplbr.cusum_filter(data['close'], threshold=daily_vol.mean() * 0.5)
+                    trplbr = TrippleBarrier()
 
-        # Compute vertical barrier
-        vertical_barriers = trplbr.add_vertical_barrier(t_events=cusum_events, close=data['close'],
-                                                        num_days=vertical_barrier_days)
+                    # Compute daily volatility
+                    daily_vol = trplbr.get_daily_vol(close=data['close'], lookback=50)
 
-        # the following parameters need to be adjusted for particular case
-        # pt_sl = [1, 2]
-        # min_ret = 0.0005
-        triple_barrier_events = trplbr.get_events(close=data['close'],
-                                                  t_events=cusum_events,
-                                                  pt_sl=pt_sl,
-                                                  target=daily_vol,
-                                                  min_ret=min_ret,
-                                                  num_threads=3,
-                                                  vertical_barrier_times=vertical_barriers,
-                                                  side_prediction=data['side'])
+                    # Apply Symmetric CUSUM Filter and get timestamps for events
+                    # Note: Only the CUSUM filter needs a point estimate for volatility
+                    cusum_events = trplbr.cusum_filter(data['close'], threshold=daily_vol.mean() * 0.5)
 
-        # labels = ml.labeling.get_bins(triple_barrier_events, data['close'])
-        labels = trplbr.get_bins(triple_barrier_events, data['close'])
+                    # Compute vertical barrier
+                    vertical_barriers = trplbr.add_vertical_barrier(t_events=cusum_events, close=data['close'],
+                                                                    num_days=vertical_barrier_days)
 
-        print("shape of labels :", labels.shape)
+                    # the following parameters need to be adjusted for particular case
+                    # pt_sl = [1, 2]
+                    # min_ret = 0.0005
+                    triple_barrier_events = trplbr.get_events(close=data['close'],
+                                                              t_events=cusum_events,
+                                                              pt_sl=pt_sl,
+                                                              target=daily_vol,
+                                                              min_ret=min_ret,
+                                                              num_threads=3,
+                                                              vertical_barrier_times=vertical_barriers,
+                                                              side_prediction=data['side'])
 
-        ###################### get other indicators ####################################
+                    # labels = ml.labeling.get_bins(triple_barrier_events, data['close'])
+                    labels = trplbr.get_bins(triple_barrier_events, data['close'])
 
-        raw_data = get_indicators(raw_data)
+                    print("shape of labels :", labels.shape)
 
-        #### Now get the data at the specified events
+                    ###################### get other indicators ####################################
+                    if 'volatility_15' not in raw_data.index:
+                        raw_data = get_indicators(raw_data)
 
-        df = pd.concat([raw_data, labels], axis=1, sort=False)
+                    #### Now get the data at the specified events
 
-        df[~df.slow_mavg.isna()].to_csv(indicators_path)
+                    df = pd.concat([raw_data, labels], axis=1, sort=False)
 
+                    df[~df.slow_mavg.isna()].to_csv(indicators_path)
