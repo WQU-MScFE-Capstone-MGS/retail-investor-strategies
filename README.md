@@ -65,7 +65,7 @@ For some parts of this project we need also a local Python environment. To creat
 
 # Implementation
 ## Smart Beta Strategy
-As part of our research we have implemented a Smart Beta alogorithm which leverages the QuantConnects framework. Below is the class diagram if of the implementation:
+As part of our research we have implemented a Smart Beta algorithm which leverages the QuantConnects framework. Below is the class diagram if of the implementation:
 
 ![Class Diagram](images/cs_class_diagram.png)
 
