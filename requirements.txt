@@ -7,6 +7,7 @@ pandas
 fastparquet
 sklearn
 matplotlib
+seaborn
 mlfinlab
 selenium
 jupyter
