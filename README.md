@@ -116,7 +116,10 @@ Trading algorithm is developed to run within open source QuantConnect platform. 
 
 # QuantConnect Primer
 Following is a quick primer on how to use QuantConnect. To run the **Smart Beta Fundamental** strategies, the user need to follow the steps shown below:
-1. **Login:** Open Web a browser and go to https://www.quantconnect.com/login?target=Web. You will see QuantConnect login page. Please enter the _User Name_ and _Password_ that are provided to you.
+1. **Login:** Open Web a browser and go to https://www.quantconnect.com/login?target=Web. You will see QuantConnect login page. Please enter the _User Name_ and _Password_ that are provided to you.<br>
+> login: shishlenin.ml@phystech.edu<br>
+> pwd: xobra4-cazgyq-ryJqym
+<br>
 Fig: QuantConnect Login
 ![QuantConnect Login](images/qc_login_page.png)
 
