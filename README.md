@@ -27,6 +27,7 @@ src
 |   |__ run_config.py
 |   |__ main.py
 |   |__ fundamental_data.py
+|   |__ technical_data.py
 |   |__ algo_type.py
 |__ tick_data_strategies
     |__ QCTickDataStrategy.py
