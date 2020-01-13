@@ -83,6 +83,7 @@ The parameters to configure the backtesting is done using the RunConfig class av
 >   ```BenchmarkIndex```: Benchmark Index used for evaluation<br>
 >   ```RunValueSmartBeta```: Flag to indicate if Value/Quality Smart Beta model should be run<br>
 >   ```UseMLForRebalancing```: Use ML Based rebalancing<br>
+
 The code currently has some reasonable defaults set.
 
 ## Tick Data Strategy
