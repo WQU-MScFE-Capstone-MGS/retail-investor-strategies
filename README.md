@@ -89,6 +89,8 @@ The code currently has some reasonable defaults set.
 ## Tick Data Strategy
 Tick Data Strategy is our attempt at getting raw tick data to generate price bars ourselves. Since tick data is hard to comeby, we have scoured and obtained tick data for securities listed on the Moscow Exchange. Before consuming this raw data, we needed to preprocess the data. The following section describes the process we followed:
 
+![TickData Strategy Class Diagram](images/qc_tickdata_class_diagram.png)
+
 ### Data Download
 The data download script was tested on Ubuntu 18.04 and MacOs (Mojave, Catalina) with FireFox browser.
 
