@@ -209,12 +209,9 @@ class SmartBetaStrategies(QCAlgorithm):
         Classifier is Factory method which create the classifier object for given input.
         As of now, there is no optimization parameters provided while creating object for ML algo.
         '''
-        # Create LogisticRegression object
-        if ctype is MLAlgoType.LOGISTIC:
-            clf = LogisticRegression()
-        
+
         # Create AdaBoost classifier object   
-        elif ctype is MLAlgoType.ADABOOST:
+        if ctype is MLAlgoType.ADABOOST:
             clf = AdaBoostClassifier()
         
         # Create RandomForest object
